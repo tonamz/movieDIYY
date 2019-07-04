@@ -6,7 +6,8 @@ export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true
+      isLoading: true,
+   
     };
   }
 
@@ -63,8 +64,23 @@ export default class Home extends Component {
  
   }
 
-  componentDidMount(){
-    return fetch('http://tssnp.com/ws_movieDIY/topic.php')
+  // componentDidMount(){
+  //   return fetch('http://tssnp.com/ws_movieDIY/topic.php')
+  //         .then((response)=> response.json())
+  //         .then((responseJson)=> {
+  //               let ds = new ListView.DataSource({rowHasChanged: (r1,r2)=>r1 !== r2})
+  //               this.setState({
+  //                 isLoading: false,
+  //                 dataSource: ds.cloneWithRows(responseJson),
+  //               },function(){});
+
+  //               }).catch((error) => {
+  //                 console.error(error);
+  //               })
+  //       }
+
+        Fetchh(){
+          return fetch('http://tssnp.com/ws_movieDIY/topic.php')
           .then((response)=> response.json())
           .then((responseJson)=> {
                 let ds = new ListView.DataSource({rowHasChanged: (r1,r2)=>r1 !== r2})
@@ -77,8 +93,10 @@ export default class Home extends Component {
                   console.error(error);
                 })
         }
+        // Fetchh().then(response => console.log(response))
 
   render() {
+    this.Fetchh()
     if(this.state.isLoading){
       return(
         <View>
@@ -95,7 +113,9 @@ export default class Home extends Component {
               <TextInput style = {styles.textinSearch}   />
             </View>
             <View style={{flexDirection: 'row', alignSelf: 'flex-end',paddingRight:60,}} > 
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Create')}
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Create') && this.Fetchh.bind(this)}
+
+            
                 style={styles.btnCircle}>
                 <Text>C</Text>
             </TouchableOpacity>
