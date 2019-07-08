@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ImageBackground,TextInput, Alert, Button ,TouchableOpacity,Icon,ListView} from 'react-native';
+import { View, Text, StyleSheet, ImageBackground,TextInput, Alert, Button ,TouchableOpacity,TouchableWithoutFeedback,Icon,ListView} from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 export default class Home extends Component {
@@ -46,38 +46,21 @@ export default class Home extends Component {
     return(
 
       <View style={{flex:1 , flexDirection: 'column',width:'100%',height:200}}>
-      <ImageBackground source={require('../../assets/img/folderS.png')} style={{width:'100%', height:'100%'}}
-      onPress = {this.Actions_Click.bind(this,item.name)}
-      >
-           <Text style={{fontSize:20, marginLeft:125,marginTop:25}}
-           >{item.name}</Text>
-
-           <Text style={{fontSize:16, marginLeft:50,marginTop:60}}>
-
-           Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-           
-           </Text>
-      </ImageBackground>
+        <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Show',{
+          id_topic:item.id, name_topic:item.name
+        }) && this.Fetchh.bind(this)}>
+            <ImageBackground source={require('../../assets/img/folderS.png')} style={{width:'100%', height:'100%'}}>
+                <Text style={{fontSize:20, marginLeft:125,marginTop:25}}>{item.name}</Text>
+                <Text style={{fontSize:16, marginLeft:50,marginTop:60}}>
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                </Text>
+            </ImageBackground>
+      </TouchableWithoutFeedback>
       </View>
 
     );
  
   }
-
-  // componentDidMount(){
-  //   return fetch('http://tssnp.com/ws_movieDIY/topic.php')
-  //         .then((response)=> response.json())
-  //         .then((responseJson)=> {
-  //               let ds = new ListView.DataSource({rowHasChanged: (r1,r2)=>r1 !== r2})
-  //               this.setState({
-  //                 isLoading: false,
-  //                 dataSource: ds.cloneWithRows(responseJson),
-  //               },function(){});
-
-  //               }).catch((error) => {
-  //                 console.error(error);
-  //               })
-  //       }
 
         Fetchh(){
           return fetch('http://tssnp.com/ws_movieDIY/topic.php')

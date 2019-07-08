@@ -3,12 +3,15 @@ import { createStackNavigator,createSwitchNavigator } from 'react-navigation';
 
 import Home from '../src/screens/Home'
 import Create from '../src/screens/Create'
-
+import Show from '../src/screens/Show'
+import Detail from '../src/screens/Detail'
 
 const HomeStack = createStackNavigator(
     {
         Home: Home,
         Create: Create,
+        Show: Show,
+        Detail: Detail,
     },
     {
         //Design for navbar
@@ -38,8 +41,8 @@ HomeStack.navigationOptions = ({navigation}) => {
 
 export const AppNav = createSwitchNavigator (
     {
-        // Home: HomeStack,
-        Create: Create,
+        Home: HomeStack,
+    
     }
 )
 

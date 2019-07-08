@@ -3,21 +3,21 @@ import { View, Text,ImageBackground,StyleSheet,ListView,TextInput ,TouchableOpac
 import {NavigationEvents, withOrientation} from "react-navigation";
 import Grid from 'react-native-grid-component';
 
-export default class Create extends Component {
+export default class Detail extends Component {
   
   
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
-      TextInputArticle : '',
+      showdetail:this.props.navigation.getParam("showdetail", '0') ,
 
     };
   }
 
   static navigationOptions = ({ navigation, navigationOptions }) => {
     return {
-        title: 'Create',
+        title: 'MovieDIY',
         headerBackTitle: null,
         headerTransparent: true,
         headerTintColor: '#fff',
@@ -57,35 +57,8 @@ export default class Create extends Component {
 
 
       InsertDataToServer () {
-
-      alert(this.state.TextInputArticle);
-      //   var a ='199';
-      //   var b = this.state.TextInputArticle;
-      //   var param = `id_topic=${a}&&text=${b}`;
-
-
-      //   // const param = id_topic=111+'text='+'Test';
-
-        
-
-
-      // fetch("http://tssnp.com/ws_movieDIY/article_write.php", {
-      //   method: 'POST',
-      //   headers: new Headers({
-      //              'Content-Type': 'application/x-www-form-urlencoded', // <-- Specifying the Content-Type
-      //     }),
-      //   body: param // <-- Post parameters
-      // })
-      // .then((response) => response.text())
-      // .then((responseText) => {
-      //   alert(responseText);
-      // })
-      // .catch((error) => {
-      //     console.error(error);
-      // });
-
+    
       }
-
     
 
 
@@ -115,27 +88,26 @@ export default class Create extends Component {
                     renderRow = {(rowData) =>  this.renderItem(rowData)
                     }
                   />
-                   <TouchableOpacity>
-                      <Text>+</Text>
-                   </TouchableOpacity>
-                  
+                 
             </View>
 
+            {/* <Text style={styles.textinput}> {this.state.showdetail.text} </Text> */}
+
             <TextInput  
-            
-              onChangeText={(TextInputArticle) => this.setState({TextInputArticle})}
-              style={styles.textinput}
-              multiline={true}
-              numberOfLines={4}
-              blurOnSubmit={false}
-            />
+             onChangeText={(text) => this.setState({showdetail: {...this.state.showdetail,text: text}})}
+            style={styles.textinput}
+            multiline={true}
+            numberOfLines={4}
+            blurOnSubmit={false}
+            value={this.state.showdetail.text}
+          />
 
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
-              <TouchableOpacity  style={styles.btnSave}
-              onPress={this.InsertDataToServer}
-              >
-                <Text style={{ color:'white',fontSize: 18,}}>Save</Text>
-              </TouchableOpacity>
+            <TouchableOpacity  style={styles.btnSave}
+            onPress={this.InsertDataToServer}
+            >
+              <Text style={{ color:'white',fontSize: 18,}}>Save</Text>
+            </TouchableOpacity>
             </View>
           
 
@@ -164,7 +136,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       flexWrap: 'wrap',
       marginLeft:20,
-      marginTop:100
+      marginTop:100,
   },
   item: {
       margin: 3,
@@ -186,10 +158,11 @@ const styles = StyleSheet.create({
       width:'80%',
       height:550,
       marginLeft:'7.5%',
-      fontSize:24,
+      fontSize:18,
       lineHeight:24,
       borderColor: 'gray',
       borderWidth: 0.5,
+      padding:20,
   },btnSave:{
       width:'60%',
       height:40,
