@@ -55,10 +55,10 @@ export default class Create extends Component {
 
       }
 
-      CreateTopic(){
+      AlertCreateTopic = () => {
         AlertIOS.prompt(
-          'Enter password',
-          'Enter your password to claim your $1.5B in lottery winnings',
+          'Create Topic',
+          'create your own topic',
           [
             {
               text: 'Cancel',
@@ -66,42 +66,58 @@ export default class Create extends Component {
               style: 'cancel',
             },
             {
-              text: 'OK',
-              onPress: (password) => console.log('OK Pressed, password: ' + password),
+              text: 'Create',
+              // onPress: (topic) => console.log('topic: ' + topic),
+              onPress: (topic) => this.CreateTopic(topic),
+              
             },
           ],
-          'secure-text',
+          'plain-text',
         );
+      }
+
+      CreateTopic = (NewTopic) =>{
+
+        var name = NewTopic;
+        var owner ='1';
+        var param = `name=${name}&&owner=${owner}`;
+
+        fetch("http://tssnp.com/ws_movieDIY/create_topic.php", {
+          method: 'POST',
+          headers: new Headers({
+                    'Content-Type': 'application/x-www-form-urlencoded', // <-- Specifying the Content-Type
+            }),
+          body: param // <-- Post parameters
+        })
+        .then((response) => response.text())
+        .then((responseText) => {
+          alert(responseText);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
       }
 
 
       InsertDataToServer = (text) => {
-
-        // console.log(this.state.text)
         var a ='199';
         var b = this.state.text;
         var param = `id_topic=${a}&&text=${b}`;
 
-
-        // const param = id_topic=111+'text='+'Test';
-
-        
-
-
-      fetch("http://tssnp.com/ws_movieDIY/article_write.php", {
-        method: 'POST',
-        headers: new Headers({
-                   'Content-Type': 'application/x-www-form-urlencoded', // <-- Specifying the Content-Type
-          }),
-        body: param // <-- Post parameters
-      })
-      .then((response) => response.text())
-      .then((responseText) => {
-        alert(responseText);
-      })
-      .catch((error) => {
-          console.error(error);
-      });
+        fetch("http://tssnp.com/ws_movieDIY/article_write.php", {
+          method: 'POST',
+          headers: new Headers({
+                    'Content-Type': 'application/x-www-form-urlencoded', // <-- Specifying the Content-Type
+            }),
+          body: param // <-- Post parameters
+        })
+        .then((response) => response.text())
+        .then((responseText) => {
+          alert(responseText);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
 
       }
 
@@ -134,7 +150,7 @@ export default class Create extends Component {
                     renderRow = {(rowData) =>  this.renderItem(rowData)
                     }
                   />
-                   <TouchableOpacity onPress={this.CreateTopic} >
+                   <TouchableOpacity onPress={this.AlertCreateTopic} >
                       <Text>+</Text>
                    </TouchableOpacity>
                   
