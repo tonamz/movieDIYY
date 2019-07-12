@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text,ImageBackground,StyleSheet,ListView,TextInput ,TouchableOpacity, Alert} from 'react-native';
+import { View, Text,ImageBackground,StyleSheet,ListView,TextInput ,TouchableOpacity, Alert,AlertIOS} from 'react-native';
 import {NavigationEvents, withOrientation} from "react-navigation";
 import Grid from 'react-native-grid-component';
 
@@ -10,7 +10,7 @@ export default class Create extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      TextInputArticle : '',
+      text: 'Useless Placeholder',
 
     };
   }
@@ -55,34 +55,53 @@ export default class Create extends Component {
 
       }
 
+      CreateTopic(){
+        AlertIOS.prompt(
+          'Enter password',
+          'Enter your password to claim your $1.5B in lottery winnings',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {
+              text: 'OK',
+              onPress: (password) => console.log('OK Pressed, password: ' + password),
+            },
+          ],
+          'secure-text',
+        );
+      }
 
-      InsertDataToServer () {
 
-      alert(this.state.TextInputArticle);
-      //   var a ='199';
-      //   var b = this.state.TextInputArticle;
-      //   var param = `id_topic=${a}&&text=${b}`;
+      InsertDataToServer = (text) => {
+
+        // console.log(this.state.text)
+        var a ='199';
+        var b = this.state.text;
+        var param = `id_topic=${a}&&text=${b}`;
 
 
-      //   // const param = id_topic=111+'text='+'Test';
+        // const param = id_topic=111+'text='+'Test';
 
         
 
 
-      // fetch("http://tssnp.com/ws_movieDIY/article_write.php", {
-      //   method: 'POST',
-      //   headers: new Headers({
-      //              'Content-Type': 'application/x-www-form-urlencoded', // <-- Specifying the Content-Type
-      //     }),
-      //   body: param // <-- Post parameters
-      // })
-      // .then((response) => response.text())
-      // .then((responseText) => {
-      //   alert(responseText);
-      // })
-      // .catch((error) => {
-      //     console.error(error);
-      // });
+      fetch("http://tssnp.com/ws_movieDIY/article_write.php", {
+        method: 'POST',
+        headers: new Headers({
+                   'Content-Type': 'application/x-www-form-urlencoded', // <-- Specifying the Content-Type
+          }),
+        body: param // <-- Post parameters
+      })
+      .then((response) => response.text())
+      .then((responseText) => {
+        alert(responseText);
+      })
+      .catch((error) => {
+          console.error(error);
+      });
 
       }
 
@@ -115,7 +134,7 @@ export default class Create extends Component {
                     renderRow = {(rowData) =>  this.renderItem(rowData)
                     }
                   />
-                   <TouchableOpacity>
+                   <TouchableOpacity onPress={this.CreateTopic} >
                       <Text>+</Text>
                    </TouchableOpacity>
                   
@@ -123,7 +142,8 @@ export default class Create extends Component {
 
             <TextInput  
             
-              onChangeText={(TextInputArticle) => this.setState({TextInputArticle})}
+            onChangeText={(text) => this.setState({text})}
+            value={this.state.text}
               style={styles.textinput}
               multiline={true}
               numberOfLines={4}
