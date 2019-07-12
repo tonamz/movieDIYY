@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text,ImageBackground,StyleSheet,ListView,TextInput ,TouchableOpacity, Alert,AlertIOS} from 'react-native';
+import { View, Text,ImageBackground,StyleSheet,ListView,TextInput ,TouchableOpacity, Alert,AlertIOS,Modal} from 'react-native';
 import {NavigationEvents, withOrientation} from "react-navigation";
 import Grid from 'react-native-grid-component';
 
@@ -10,7 +10,8 @@ export default class Create extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      text: 'Useless Placeholder',
+      text: '',
+      modalVisible: false,
 
     };
   }
@@ -121,6 +122,11 @@ export default class Create extends Component {
 
       }
 
+      setModalVisible(visible) {
+        this.setState({modalVisible: visible});
+      }
+    
+
     
 
 
@@ -144,18 +150,76 @@ export default class Create extends Component {
         <View style={styles.container}> 
             <ImageBackground source={require('../../assets/img/folderL.png')} style={styles.imgfolderL}>
             <View style={{width:'100%'}}>
+
+              <Modal
+               style={{backgroundColor:'red'}}
+                animationType="slide"
+                transparent={true}
+                visible={this.state.modalVisible}
+                onRequestClose={() => {
+                  Alert.alert('Modal has been closed.');
+                }}>
+                
+                <View  style={{
+                flex: 1,
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                }} >
+                  <View style={styles.hideModal}>
+                    
+
                   <ListView  contentContainerStyle={styles.list}
                     
                     dataSource = {this.state.dataSource}
                     renderRow = {(rowData) =>  this.renderItem(rowData)
                     }
                   />
+
+                    <TouchableOpacity
+                      onPress={() => {
+                        this.setModalVisible(!this.state.modalVisible);
+                      }}>
+                      <Text>Hide Modal</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+             
+              </Modal>
+
+
+                  {/* <ListView  contentContainerStyle={styles.list}
+                    
+                    dataSource = {this.state.dataSource}
+                    renderRow = {(rowData) =>  this.renderItem(rowData)
+                    }
+                  /> 
+                  
+                  
                    <TouchableOpacity onPress={this.AlertCreateTopic} >
                       <Text>+</Text>
                    </TouchableOpacity>
                   
+                  */}
+              <View style={styles.topic}>
+                  <Text style={{ color:'black',fontSize: 18,}}>Topic :</Text>
+                <TouchableOpacity  
+                onPress={() => {
+                  this.setModalVisible(!this.state.modalVisible);
+                }}
+                style={styles.btnTopic}
+                >
+                  <Text >Topic</Text>
+                </TouchableOpacity>
+              
+                   
+              </View>
+              
+             
+                  
             </View>
-
+           
+           
             <TextInput  
             
             onChangeText={(text) => this.setState({text})}
@@ -226,6 +290,7 @@ const styles = StyleSheet.create({
       lineHeight:24,
       borderColor: 'gray',
       borderWidth: 0.5,
+      marginTop:30,
   },btnSave:{
       width:'60%',
       height:40,
@@ -234,6 +299,26 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius: 20,
+  },
+  hideModal:{
+    width: 650,
+    height: 800, 
+    backgroundColor:'white',
+    marginTop:60
+  },
+  topic:{
+    flexDirection: 'row',
+    marginLeft:'7.5%',
+    marginTop:100,
+  },
+  btnTopic:{
+    borderColor: 'gray',
+    borderWidth: 0.5,
+    width:100,
+    height:30,
+    padding:5,
+    marginLeft:10,
+    borderRadius:10,
   }
    
 });
