@@ -42,6 +42,7 @@ HomeStack.navigationOptions = ({navigation}) => {
 export const AppNav = createSwitchNavigator (
     {
         Home: HomeStack,
+        // Create: Create,
     
     }
 )

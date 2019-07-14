@@ -12,6 +12,8 @@ export default class Create extends Component {
       isLoading: true,
       text: '',
       modalVisible: false,
+      topic:'Choose Topic',
+      topicItem:'',
 
     };
   }
@@ -92,7 +94,7 @@ export default class Create extends Component {
         })
         .then((response) => response.text())
         .then((responseText) => {
-          alert(responseText);
+          // alert(responseText);
         })
         .catch((error) => {
             console.error(error);
@@ -100,10 +102,11 @@ export default class Create extends Component {
       }
 
 
-      InsertDataToServer = (text) => {
-        var a ='199';
-        var b = this.state.text;
-        var param = `id_topic=${a}&&text=${b}`;
+      InsertDataToServer = (text,topicItem) => {
+        var topicItem = this.state.topicItem;
+        var text = this.state.text;
+        var param = `id_topic=${topicItem}&&text=${text}`;
+        console.log(param);
 
         fetch("http://tssnp.com/ws_movieDIY/article_write.php", {
           method: 'POST',
@@ -124,6 +127,13 @@ export default class Create extends Component {
 
       setModalVisible(visible) {
         this.setState({modalVisible: visible});
+      }
+      InsertToTopic = (id) => {
+        this.setState({topic: "your new topic"})
+        this.setState({topicItem: id})
+        console.log(this.state.topicItem);
+
+
       }
     
 
@@ -168,21 +178,41 @@ export default class Create extends Component {
                 }} >
                   <View style={styles.hideModal}>
                     
+                   
+                      <Text style={styles.topicChoose}>Choose Topic</Text>
+                     
+                     <TouchableOpacity style={styles.btnAddTopic}
+                        onPress={this.AlertCreateTopic}
+                       >
+                      <Text style={{color:'white',fontSize:16}}>Add Topic</Text>
+                    </TouchableOpacity>
+                     
+
+                 
+
+                  
 
                   <ListView  contentContainerStyle={styles.list}
-                    
                     dataSource = {this.state.dataSource}
-                    renderRow = {(rowData) =>  this.renderItem(rowData)
+                    renderRow={(rowData) =>   
+                      <TouchableOpacity
+                          onPress={() => {
+                            this.setModalVisible(!this.state.modalVisible);
+                            this.InsertToTopic(rowData.id)
+                          }} > 
+                        <View style={styles.item}>
+                          <Text style={styles.itemtag}>{rowData.name}</Text>
+                        </View>
+                      </TouchableOpacity>
+                        
                     }
+                    
                   />
+                
 
-                    <TouchableOpacity
-                      onPress={() => {
-                        this.setModalVisible(!this.state.modalVisible);
-                      }}>
-                      <Text>Hide Modal</Text>
-                    </TouchableOpacity>
+                   
                   </View>
+                  
                 </View>
              
               </Modal>
@@ -201,6 +231,7 @@ export default class Create extends Component {
                    </TouchableOpacity>
                   
                   */}
+
               <View style={styles.topic}>
                   <Text style={{ color:'black',fontSize: 18,}}>Topic :</Text>
                 <TouchableOpacity  
@@ -209,7 +240,7 @@ export default class Create extends Component {
                 }}
                 style={styles.btnTopic}
                 >
-                  <Text >Topic</Text>
+                  <Text >{this.state.topic}</Text>
                 </TouchableOpacity>
               
                    
@@ -264,7 +295,8 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       flexWrap: 'wrap',
       marginLeft:20,
-      marginTop:100
+      marginTop:100,
+      
   },
   item: {
       margin: 3,
@@ -277,6 +309,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       borderColor: 'gray',
       borderWidth: 0.5,
+      
   },
   itemtag:{
     color:'gray',
@@ -304,7 +337,9 @@ const styles = StyleSheet.create({
     width: 650,
     height: 800, 
     backgroundColor:'white',
-    marginTop:60
+    // backgroundColor: 'rgba(52, 52, 52, 0.8)',
+    marginTop:60,
+  
   },
   topic:{
     flexDirection: 'row',
@@ -319,6 +354,24 @@ const styles = StyleSheet.create({
     padding:5,
     marginLeft:10,
     borderRadius:10,
+  },
+  btnAddTopic:{
+    backgroundColor: 'red',
+    width:'23%',
+    height:40,
+    backgroundColor:'#2f518e',
+    marginTop:30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    position: 'absolute', right: 60,
+    zIndex: 1,
+  }
+  ,
+  topicChoose:{
+    position: 'absolute', left: 60,
+    marginTop:30,
+    fontSize:28,
   }
    
 });

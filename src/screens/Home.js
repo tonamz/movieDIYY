@@ -103,13 +103,17 @@ export default class Home extends Component {
                 <Text>C</Text>
             </TouchableOpacity>
            
-            </View>
+            </View  >
+            <View  style={{flexDirection: 'row'}}>
                 <ListView 
                   dataSource = {this.state.dataSource}
                   renderRow = {(rowData) =>  this.renderItem(rowData)
                   }
                   style={styles.list}
+                  showsVerticalScrollIndicator = {false}
+                     
                 />
+               </View>
             </View>
       
         </ImageBackground>
