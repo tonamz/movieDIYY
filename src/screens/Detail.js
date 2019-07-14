@@ -11,6 +11,7 @@ export default class Detail extends Component {
     this.state = {
       isLoading: true,
       showdetail:this.props.navigation.getParam("showdetail", '0') ,
+      name_topic: this.props.navigation.getParam("name_topic", '0') ,
 
     };
   }
@@ -81,7 +82,8 @@ export default class Detail extends Component {
 
         <View style={styles.container}> 
             <ImageBackground source={require('../../assets/img/folderL.png')} style={styles.imgfolderL}>
-            <View style={{width:'100%'}}>
+            <Text style={styles.head}>{this.state.name_topic}</Text>
+            {/* <View style={{width:'100%'}}>
                   <ListView  contentContainerStyle={styles.list}
                     
                     dataSource = {this.state.dataSource}
@@ -89,26 +91,27 @@ export default class Detail extends Component {
                     }
                   />
                  
-            </View>
+            </View> */}
 
             {/* <Text style={styles.textinput}> {this.state.showdetail.text} </Text> */}
 
-            <TextInput  
+            {/* <TextInput  
              onChangeText={(text) => this.setState({showdetail: {...this.state.showdetail,text: text}})}
             style={styles.textinput}
             multiline={true}
             numberOfLines={4}
             blurOnSubmit={false}
             value={this.state.showdetail.text}
-          />
+          /> */}
+         <Text style={styles.textDetail}> {this.state.showdetail.text} </Text>
 
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            {/* <View style={{justifyContent: 'center', alignItems: 'center'}}>
             <TouchableOpacity  style={styles.btnSave}
             onPress={this.InsertDataToServer}
             >
               <Text style={{ color:'white',fontSize: 18,}}>Save</Text>
             </TouchableOpacity>
-            </View>
+            </View> */}
           
 
               </ImageBackground> 
@@ -154,7 +157,7 @@ const styles = StyleSheet.create({
     color:'gray',
     fontSize:18,
     
-  },textinput:{
+  },textDetail:{
       width:'80%',
       height:550,
       marginLeft:'7.5%',
@@ -163,6 +166,7 @@ const styles = StyleSheet.create({
       borderColor: 'gray',
       borderWidth: 0.5,
       padding:20,
+      marginTop:50,
   },btnSave:{
       width:'60%',
       height:40,
@@ -171,6 +175,16 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius: 20,
+  },
+  topic:{
+    flexDirection: 'row',
+    marginLeft:'7.5%',
+    marginTop:100,
+  },head:{
+    color:'black',
+    fontSize:24,
+    marginTop:35,
+    marginLeft:130,
   }
    
 });

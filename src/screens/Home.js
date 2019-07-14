@@ -14,6 +14,7 @@ export default class Home extends Component {
   static navigationOptions = {
         title:'movieDIY',
         headerTransparent: true,
+        headerBackTitle: null,
         headerTintColor: '#fff',
         headerTitleStyle: {
           fontWeight: 'bold',

@@ -52,7 +52,7 @@ export default class Show extends Component {
         return( 
           <TouchableWithoutFeedback
           onPress={() => this.props.navigation.navigate('Detail',{
-            showdetail:item
+            showdetail:item,name_topic:this.state.name_topic
           }) && this.Fetchh.bind(this)}
           
           >
