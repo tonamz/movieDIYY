@@ -14,6 +14,8 @@ export default class Create extends Component {
       modalVisible: false,
       topic:'Choose Topic',
       topicItem:'',
+      topicOrTag:'',
+      headerModal:''
 
     };
   }
@@ -25,9 +27,9 @@ export default class Create extends Component {
         headerTransparent: true,
         headerTintColor: '#fff',
         headerTitleStyle: {
-          fontWeight: 'bold',
-          fontSize:20,
-          marginTop: 20,
+        fontWeight: 'bold',
+        fontSize:20,
+        marginTop: 20,
     
         },
         
@@ -128,10 +130,21 @@ export default class Create extends Component {
       setModalVisible(visible) {
         this.setState({modalVisible: visible});
       }
-      InsertToTopic = (id) => {
-        this.setState({topic: "your new topic"})
-        this.setState({topicItem: id})
-        console.log(this.state.topicItem);
+      InsertToTopic = (id,name,tt) => {
+        if(tt == '1'){
+          this.setState({topic: name})
+          this.setState({topicItem: id})
+          console.log(this.state.name);
+       
+          
+        }
+        else {
+          this.setState({topic: name})
+          this.setState({topicItem: id})
+          console.log(this.state.name);
+          
+          
+        }
 
 
       }
@@ -179,7 +192,7 @@ export default class Create extends Component {
                   <View style={styles.hideModal}>
                     
                    
-                      <Text style={styles.topicChoose}>Choose Topic</Text>
+                      <Text style={styles.topicChoose}>{this.state.headerModal}</Text>
                      
                      <TouchableOpacity style={styles.btnAddTopic}
                         onPress={this.AlertCreateTopic}
@@ -198,7 +211,7 @@ export default class Create extends Component {
                       <TouchableOpacity
                           onPress={() => {
                             this.setModalVisible(!this.state.modalVisible);
-                            this.InsertToTopic(rowData.id)
+                            this.InsertToTopic(rowData.id,rowData.name)
                           }} > 
                         <View style={styles.item}>
                           <Text style={styles.itemtag}>{rowData.name}</Text>
@@ -237,6 +250,23 @@ export default class Create extends Component {
                 <TouchableOpacity  
                 onPress={() => {
                   this.setModalVisible(!this.state.modalVisible);
+                  this.setState({topicOrTag: 1})
+                  this.setState({headerModal: 'Choose Topic'})
+                }}
+                style={styles.btnTopic}
+                >
+                  <Text >{this.state.topic}</Text>
+                </TouchableOpacity>
+              
+                   
+              </View>
+              <View style={styles.tag}>
+                  <Text style={{ color:'black',fontSize: 18,}}>Tag :</Text>
+                <TouchableOpacity  
+                onPress={() => {
+                  this.setModalVisible(!this.state.modalVisible);
+                  this.setState({topicOrTag: 0})
+                  this.setState({headerModal: 'Choose Tag'})
                 }}
                 style={styles.btnTopic}
                 >
@@ -345,6 +375,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginLeft:'7.5%',
     marginTop:100,
+  },
+  tag:{
+    flexDirection: 'row',
+    marginLeft:'7.5%',
+    marginTop:20,
   },
   btnTopic:{
     borderColor: 'gray',
