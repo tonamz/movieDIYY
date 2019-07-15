@@ -12,10 +12,13 @@ export default class Create extends Component {
       isLoading: true,
       text: '',
       modalVisible: false,
-      topic:'Choose Topic',
+      topic:'Choose',
       topicItem:'',
       topicOrTag:'',
-      headerModal:''
+      headerModal:'',
+      subTopic:'Choose',
+      subTopicID:'Choose'
+
 
     };
   }
@@ -104,10 +107,11 @@ export default class Create extends Component {
       }
 
 
-      InsertDataToServer = (text,topicItem) => {
+      InsertDataToServer = (text,topicItem,subTopicID) => {
         var topicItem = this.state.topicItem;
         var text = this.state.text;
-        var param = `id_topic=${topicItem}&&text=${text}`;
+        var subtopic = this.state.subTopicID
+        var param = `id_topic=${topicItem}&&id_subtopic=${subtopic}&&text=${text}`;
         console.log(param);
 
         fetch("http://tssnp.com/ws_movieDIY/article_write.php", {
@@ -119,8 +123,16 @@ export default class Create extends Component {
         })
         .then((response) => response.text())
         .then((responseText) => {
-          alert(responseText);
+         // alert(responseText);
+          // alert("complete")
+        
         })
+        .then(
+          // this.props.navigation.navigate('Detail',{showdetail:item,name_topic:this.state.name_topic}
+          this.props.navigation.navigate('Show',{
+            id_topic:this.state.topicItem, name_topic:this.state.topic
+          })
+        )
         .catch((error) => {
             console.error(error);
         });
@@ -131,19 +143,16 @@ export default class Create extends Component {
         this.setState({modalVisible: visible});
       }
       InsertToTopic = (id,name,tt) => {
-        if(tt == '1'){
+        if(this.state.topicOrTag == 1){
           this.setState({topic: name})
           this.setState({topicItem: id})
-          console.log(this.state.name);
        
           
         }
-        else {
-          this.setState({topic: name})
-          this.setState({topicItem: id})
-          console.log(this.state.name);
-          
-          
+        else if(this.state.topicOrTag == 0) {
+          this.setState({subTopic: name})
+          this.setState({subTopicID: id})
+
         }
 
 
@@ -270,7 +279,7 @@ export default class Create extends Component {
                 }}
                 style={styles.btnTopic}
                 >
-                  <Text >{this.state.topic}</Text>
+                  <Text >{this.state.subTopic}</Text>
                 </TouchableOpacity>
               
                    

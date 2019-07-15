@@ -57,7 +57,14 @@ export default class Show extends Component {
           
           >
             <View style={styles.item}>
-              <Text style={styles.text}>{item.text}</Text>
+              <Text style={styles.text} numberOfLines={2}>{item.text}</Text>
+         
+              <View style={{backgroundColor: '#000000', alignSelf: 'flex-start' }}>
+              <Text style={{color: '#ffffff'}}>
+              {item.name}
+              </Text>
+              </View>
+              
             </View>
           </TouchableWithoutFeedback>
         );
