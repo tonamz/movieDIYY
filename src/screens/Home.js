@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, ImageBackground,TextInput, Alert, Button ,TouchableOpacity,TouchableWithoutFeedback,Icon,ListView} from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faEdit,faSquare } from '@fortawesome/free-solid-svg-icons'
 
 export default class Home extends Component {
   constructor(props) {
@@ -12,7 +14,7 @@ export default class Home extends Component {
   }
 
   static navigationOptions = {
-        title:'movieDIY',
+        title:'MovieDIY',
         headerTransparent: true,
         headerBackTitle: null,
         headerTintColor: '#fff',
@@ -48,7 +50,7 @@ export default class Home extends Component {
 
       <View style={{flex:1 , flexDirection: 'column',width:'100%',height:200}}>
         <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Show',{
-          id_topic:item.id, name_topic:item.name
+          id_topic:item.id_topicc, name_topic:item.name
         }) && this.Fetchh.bind(this)}>
             <ImageBackground source={require('../../assets/img/folderS.png')} style={{width:'100%', height:'100%'}}>
                 <Text style={{fontSize:20, marginLeft:125,marginTop:25}}>{item.name}</Text>
@@ -97,12 +99,18 @@ export default class Home extends Component {
               <TextInput style = {styles.textinSearch}   />
             </View>
             <View style={{flexDirection: 'row', alignSelf: 'flex-end',paddingRight:60,}} > 
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Create') && this.Fetchh.bind(this)}
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Log') }
 
             
                 style={styles.btnCircle}>
-                <Text>C</Text>
+                <Text>  <FontAwesomeIcon icon={ faSquare  }   size={ 24 } color={ 'gray' } /> </Text>
             </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Create') && this.Fetchh.bind(this)}
+
+            
+          style={styles.btnCircle}>
+          <Text>  <FontAwesomeIcon icon={ faEdit }  size={ 24 } color={ 'gray' } /> </Text>
+          </TouchableOpacity>
            
             </View  >
             <View  style={{flexDirection: 'row'}}>

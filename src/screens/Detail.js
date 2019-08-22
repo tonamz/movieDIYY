@@ -105,14 +105,70 @@ export default class Detail extends Component {
           /> */}
          <Text style={styles.textDetail}> {this.state.showdetail.text} </Text>
 
-            {/* <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <View style={{justifyContent: 'center', alignItems: 'center'}}>
             <TouchableOpacity  style={styles.btnSave}
-            onPress={this.InsertDataToServer}
+         
+                onPress={() => 
+                  this.props.navigation.navigate('Create',{
+                      text:this.state.showdetail.text,
+                      name_topic:this.state.name_topic,
+                      topic:this.state.name_topic,
+                      topicItem:this.state.showdetail.id_topic,
+                      subTopic:this.state.showdetail.name,
+                      subTopicID:this.state.showdetail.id_subtopic,
+                      Edit:1,
+                      idArticles:this.state.showdetail.id
+                    })
+                }
             >
-              <Text style={{ color:'white',fontSize: 18,}}>Save</Text>
+              <Text style={{ color:'white',fontSize: 18,}}>Edit</Text>
             </TouchableOpacity>
-            </View> */}
+
+            <TouchableOpacity  style={styles.btnDelete}
+             onPress={() => {
+              Alert.alert(
+                'ยืนยันการลบ',
+                'กรุณากดยืนยันหากท่านต้องการลบ',
+                [
+                  {text: 'ยกเลิก', onPress: () => console.log('OK Pressed')},
+                  {
+                    text: 'ยืนยัน',
+                    onPress: () =>{
+                      
+                      fetch('http://tssnp.com/ws_movieDIY/article_delete.php?id='+this.state.showdetail.id)
+                      this.props.navigation.navigate('Show',{
+                          id_topic:this.state.showdetail.id_topic, name_topic:this.state.name_topic
+                        })
+                  
+                  }    ,
+                    style: 'cancel',
+                  },
+                  
+                ],
+                {cancelable: false},
+              );
+
+            }}
+           
+            >
+              <Text style={{ color:'white',fontSize: 18,}}>Delete</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity  style={styles.btnSave}
+             onPress={() => {
+              this.props.navigation.navigate('Log',{
+                // id_topic:this.state.showdetail.id_topic, name_topic:this.state.name_topic
+              })
+
+            }}
+           
+            >
+              <Text style={{ color:'white',fontSize: 18,}}>Go To Logstory Line</Text>
+            </TouchableOpacity>
+            
+            </View> 
           
+
 
               </ImageBackground> 
           </View>
@@ -176,6 +232,17 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       borderRadius: 20,
   },
+  btnDelete:{
+    width:'60%',
+    height:40,
+    marginTop:30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+  
+    backgroundColor:'red',
+ 
+},
   topic:{
     flexDirection: 'row',
     marginLeft:'7.5%',

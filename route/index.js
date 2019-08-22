@@ -5,6 +5,8 @@ import Home from '../src/screens/Home'
 import Create from '../src/screens/Create'
 import Show from '../src/screens/Show'
 import Detail from '../src/screens/Detail'
+import Log from '../src/screens/Log'
+import Bowl from '../src/screens/Bowl'
 
 const HomeStack = createStackNavigator(
     {
@@ -12,6 +14,8 @@ const HomeStack = createStackNavigator(
         Create: Create,
         Show: Show,
         Detail: Detail,
+        Log:Log ,
+        Bowl:Bowl ,
     },
     {
         //Design for navbar
@@ -41,6 +45,7 @@ HomeStack.navigationOptions = ({navigation}) => {
 
 export const AppNav = createSwitchNavigator (
     {
+        // Log:Log
         Home: HomeStack,
         // Create: Create,
     

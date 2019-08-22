@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text,ImageBackground,StyleSheet,ListView,TextInput ,TouchableOpacity, Alert} from 'react-native';
 import {NavigationEvents, withOrientation} from "react-navigation";
+
 import Grid from 'react-native-grid-component';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
@@ -53,16 +54,16 @@ export default class Show extends Component {
           <TouchableWithoutFeedback
           onPress={() => this.props.navigation.navigate('Detail',{
             showdetail:item,name_topic:this.state.name_topic
-          }) && this.Fetchh.bind(this)}
+          }) && this.Fetchh.bind(this)} 
           
           >
             <View style={styles.item}>
               <Text style={styles.text} numberOfLines={2}>{item.text}</Text>
          
-              <View style={{backgroundColor: '#000000', alignSelf: 'flex-start' }}>
-              <Text style={{color: '#ffffff'}}>
-              {item.name}
-              </Text>
+              <View style={{flex: 1,justifyContent: 'flex-end'}}>
+                <Text style={{ color: 'black'}}>
+                {item.name}
+                </Text>
               </View>
               
             </View>
@@ -128,12 +129,9 @@ const styles = StyleSheet.create({
     item:{
       width:'80%',
       height: 120,
-     backgroundColor:'#ebe9e6',
      marginLeft:62,
-     padding:30,
-     borderRadius:20,
-     marginBottom:20,
-
+     padding:10,
+     borderBottomWidth: 1,
 
     },
     listview:{

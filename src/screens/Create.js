@@ -10,14 +10,16 @@ export default class Create extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      text: '',
+      text: this.props.navigation.getParam("text", ''),
       modalVisible: false,
-      topic:'Choose',
-      topicItem:'',
+      topic:this.props.navigation.getParam("topic", 'Choose'),
+      topicItem:this.props.navigation.getParam("topicItem", ''),
       topicOrTag:'',
       headerModal:'',
-      subTopic:'Choose',
-      subTopicID:'Choose'
+      subTopic:this.props.navigation.getParam("subTopic", 'Choose'),
+      subTopicID:this.props.navigation.getParam("subTopicID", ''),
+      Edit:this.props.navigation.getParam("Edit", 0),
+      idArticles:this.props.navigation.getParam("idArticles", 0),
 
 
     };
@@ -108,34 +110,69 @@ export default class Create extends Component {
 
 
       InsertDataToServer = (text,topicItem,subTopicID) => {
+
         var topicItem = this.state.topicItem;
         var text = this.state.text;
         var subtopic = this.state.subTopicID
+        var id = this.state.idArticles
         var param = `id_topic=${topicItem}&&id_subtopic=${subtopic}&&text=${text}`;
-        console.log(param);
+        var param2 = `id_topic=${topicItem}&&id_subtopic=${subtopic}&&text=${text}&&id=${id}`;
 
-        fetch("http://tssnp.com/ws_movieDIY/article_write.php", {
-          method: 'POST',
-          headers: new Headers({
-                    'Content-Type': 'application/x-www-form-urlencoded', // <-- Specifying the Content-Type
-            }),
-          body: param // <-- Post parameters
-        })
-        .then((response) => response.text())
-        .then((responseText) => {
-         // alert(responseText);
-          // alert("complete")
-        
-        })
-        .then(
-          // this.props.navigation.navigate('Detail',{showdetail:item,name_topic:this.state.name_topic}
-          this.props.navigation.navigate('Show',{
-            id_topic:this.state.topicItem, name_topic:this.state.topic
+    
+       
+
+        if(this.state.Edit == 0){
+          console.log("write");
+            fetch("http://tssnp.com/ws_movieDIY/article_write.php", {
+                method: 'POST',
+                headers: new Headers({
+                          'Content-Type': 'application/x-www-form-urlencoded', // <-- Specifying the Content-Type
+                  }),
+                body: param // <-- Post parameters
+              })
+              .then((response) => response.text())
+              .then((responseText) => {
+              // alert(responseText);
+                // alert("complete")
+              })
+              .then(
+                // this.props.navigation.navigate('Detail',{showdetail:item,name_topic:this.state.name_topic}
+                this.props.navigation.navigate('Show',{
+                  id_topic:this.state.topicItem, name_topic:this.state.topic
+                })
+              )
+              .catch((error) => {
+                  console.error(error);
+              });
+        } 
+        if (this.state.Edit == 1){
+          console.log("update");
+          console.log(param2);
+          fetch("http://tssnp.com/ws_movieDIY/article_update.php", {
+            method: 'POST',
+            headers: new Headers({
+                      'Content-Type': 'application/x-www-form-urlencoded', // <-- Specifying the Content-Type
+              }),
+            body: param2// <-- Post parameters
           })
-        )
-        .catch((error) => {
-            console.error(error);
-        });
+          .then((response) => response.text())
+          .then((responseText) => {
+          // alert(responseText);
+            // alert("complete")
+          })
+          .then(
+            // this.props.navigation.navigate('Detail',{showdetail:item,name_topic:this.state.name_topic}
+            this.props.navigation.navigate('Show',{
+              id_topic:this.state.topicItem, name_topic:this.state.topic
+            })
+          )
+          .catch((error) => {
+              console.error(error);
+          });
+        }
+      
+
+  
 
       }
 
@@ -146,6 +183,7 @@ export default class Create extends Component {
         if(this.state.topicOrTag == 1){
           this.setState({topic: name})
           this.setState({topicItem: id})
+          console.log(this.state.topicItem)
        
           
         }
@@ -163,6 +201,7 @@ export default class Create extends Component {
 
 
   render() {
+   
 
    
  
@@ -220,7 +259,7 @@ export default class Create extends Component {
                       <TouchableOpacity
                           onPress={() => {
                             this.setModalVisible(!this.state.modalVisible);
-                            this.InsertToTopic(rowData.id,rowData.name)
+                            this.InsertToTopic(rowData.id_topicc,rowData.name)
                           }} > 
                         <View style={styles.item}>
                           <Text style={styles.itemtag}>{rowData.name}</Text>
